@@ -41,3 +41,10 @@ prefix is almost certainly a bug.
 - `find_host_bits(address: str, prefix_len: int) -> str` — the host bits as a
   dotted-quad string (e.g. `"0.0.0.5"`), or `"0.0.0.0"` if none are set.
 - `NetworkError` — subclass of `ValueError`, raised on malformed input.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
